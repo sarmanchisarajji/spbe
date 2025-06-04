@@ -18,6 +18,8 @@ use App\Http\Controllers\PenilaianController;
 Route::get('/', function () {
     return view('pages.index');
 });
+
+
 Route::get('/Prosescobit', [AplikasiSPBEController::class, 'indexSPBE']);
 Route::post('/Prosescobit/storeAplikasi', [AplikasiSPBEController::class, 'storeAplikasi'])->name('aplikasi.store');
 Route::put('/Prosescobit/updateAplikasi/{id}', [AplikasiSPBEController::class, 'updateAplikasi'])->name('aplikasi.update');

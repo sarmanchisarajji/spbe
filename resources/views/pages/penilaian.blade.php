@@ -2,46 +2,62 @@
 @section('main-contents')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Indikator Cobit 5</h3>
+            <h3 class="fw-bold mb-3">Aplikasi </h3>
             <ul class="breadcrumbs mb-3">
-                <li class="nav-home">
-                    <a href="/dashboard">
+                {{-- <li class="nav-home">
+                    <a href="#">
                         <i class="icon-home"></i>
                     </a>
+                </li> --}}
+                {{-- <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="/aplikasiSPBE">Aplikasi</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="/dashboard">Dashbaord</a>
+                    <a href="/dashboard">
+                        <i class="icon-home"></i> Indikator
+                    </a>
                 </li>
             </ul>
         </div>
         <div class="row">
             <div class="col-md-12">
                 @if (session('success'))
-                    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div id="success-alert" class="alert alert-success alert-dismissible fade show text-success"
+                        role="alert">
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
+                @if (session('error'))
+                    <div id="error-alert" class="alert alert-danger alert-dismissible fade show text-danger" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <script>
-                    // Tunggu 3 detik (3000 ms) lalu hilangkan pesan sukses
-                    setTimeout(function() {
-                        let alert = document.getElementById("success-alert");
-                        if (alert) {
+                    setTimeout(() => {
+                        document.querySelectorAll(".alert-dismissible").forEach(alert => {
                             alert.style.transition = "opacity 0.5s ease-out";
                             alert.style.opacity = "0";
                             setTimeout(() => {
                                 alert.remove();
-                            }, 500); // Hapus elemen setelah animasi selesai
-                        }
-                    }, 3000); // 3 detik
+                            }, 500);
+                        });
+                    }, 3000);
                 </script>
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Manajemen Aplikasi SPBE</h4>
+                            <h4 class="card-title">Penilaian Aplikasi </h4>
+                            <a href="/aplikasiSPBE" class="btn btn-primary btn-round ms-auto">
+                                <i class="fa fa-arrow-left"></i> Kembali
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -68,24 +84,10 @@
                                             <td>{{ \Carbon\Carbon::parse($apk->updated_at)->format('d-m-Y') }}</td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    {{-- <button type="button" data-bs-toggle="modal" title="Penilaian"
-                                                        class="btn btn-link btn-warning">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </button> --}}
                                                     <a href="{{ route('penilaian.index', $apk->id) }}"
-                                                        class="btn btn-link btn-warning" title="Penilaian">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal"
-                                                        data-bs-target="#editModal{{ $apk->id }}" title="Edit"
-                                                        class="btn btn-link btn-primary">
+                                                        class="btn btn-link btn-primary" title="Penilaian">
                                                         <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal{{ $apk->id }}" title="Hapus"
-                                                        class="btn btn-link btn-danger">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -155,14 +157,22 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{-- <div class="d-flex justify-content-end mt-3">
+                                <form action="{{ route('hitung.kematangan', ['idAplikasi' => $aplikasi_id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fa fa-calculator"></i> Hitung Kematangan
+                                    </button>
+                                </form>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal Tambah Data -->
+        <!-- Modal Tambah Data -->
     <div class="modal fade" id="addAplikasiModal" tabindex="-1" role="dialog" aria-labelledby="addAplikasiLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
