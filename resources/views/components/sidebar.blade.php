@@ -51,8 +51,8 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a href="">
+                <li class="nav-item" {{ Request::is('Prosescobit*') ? 'active' : '' }}>
+                    <a href="/Prosescobit" >
                         <i class="fas fa-th-list"></i>
                         <p>Proses COBIT 5</p>
                     </a>
