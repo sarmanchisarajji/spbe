@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('evaluasi_id')->constrained('evaluasis')->onDelete('cascade');
             $table->foreignId('indikator_id')->constrained('indikator_s_p_b_e_s')->onDelete('cascade');
+
             $table->decimal('kematangan_indikator', 5, 2)->nullable();
             $table->string('level');
             $table->enum('ada', ['ya', 'tidak']);

@@ -55,7 +55,7 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <h4 class="card-title">Penilaian Aplikasi </h4>
-                            <a href="/aplikasiSPBE" class="btn btn-primary btn-round ms-auto">
+                            <a href="/Prosescobit" class="btn btn-primary btn-round ms-auto">
                                 <i class="fa fa-arrow-left"></i> Kembali
                             </a>
                         </div>
