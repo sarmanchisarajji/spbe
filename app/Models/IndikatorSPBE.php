@@ -20,4 +20,9 @@ class IndikatorSPBE extends Model
     {
         return $this->hasMany(Cobit::class);
     }
+
+    public function pertanyaan()
+    {
+        return $this->hasMany(Pertanyaan::class);
+    }
 }

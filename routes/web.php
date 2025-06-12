@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AplikasiSPBEController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DomainAspekIndikatorController;
 use App\Http\Controllers\PenilaianController;
 
 /*
@@ -15,11 +17,13 @@ use App\Http\Controllers\PenilaianController;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.index');
-});
+// Halaman Dashboard
+ Route::get('/dashboard', [DashboardController::class, 'indexDashboard']);
 
+// Halaman Domain, Aspek & Indikator
+Route::get('/aspek-indikator/domain-layanan', [DomainAspekIndikatorController::class, 'tampilAspekIndikator']);
 
+// Halaman Proses cobit 5
 Route::get('/Prosescobit', [AplikasiSPBEController::class, 'indexSPBE']);
 Route::post('/Prosescobit/storeAplikasi', [AplikasiSPBEController::class, 'storeAplikasi'])->name('aplikasi.store');
 Route::put('/Prosescobit/updateAplikasi/{id}', [AplikasiSPBEController::class, 'updateAplikasi'])->name('aplikasi.update');
@@ -30,6 +34,3 @@ Route::put('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/updatePenilaian', 
 Route::delete('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/deletePenilaian', [PenilaianController::class, 'destroyPenilaian'])->name('penilaian.destroy');
 Route::post('/Prosescobit/{idAplikasi}/hitungKematangan', [PenilaianController::class, 'hitungKematanganSPBE'])->name('hitung.kematangan');
 Route::get('/Prosescobit/laporanKematangan/pdf/{id}', [PenilaianController::class, 'laporanPDF']);
-// Route::get('/Prosescobit', function () {
-//     return view('pages.apk');
-// });

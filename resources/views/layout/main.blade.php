@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{ url('') }}/assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
     <script src="{{ url('') }}/assets/js/core/jquery-3.7.1.min.js"></script>
 

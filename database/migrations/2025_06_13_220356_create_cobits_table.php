@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('evaluasi_id')->constrained('evaluasis')->onDelete('cascade');
             $table->foreignId('indikator_id')->constrained('indikator_s_p_b_e_s')->onDelete('cascade');
-
+            $table->foreignId('pertanyaan_id')->constrained('pertanyaans')->onDelete('cascade');
             $table->decimal('kematangan_indikator', 5, 2)->nullable();
-            $table->string('level');
             $table->enum('ada', ['ya', 'tidak']);
             $table->enum('nilai', ['n', 'p', 'l', 'f']);
-            $table->text('pertanyaan');
             $table->string('catatan', 255);
             $table->string('bukti_pendukung')->nullable();
             $table->timestamps();

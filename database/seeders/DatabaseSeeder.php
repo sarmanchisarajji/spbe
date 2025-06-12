@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AspekSeeder::class,
             IndikatorSeeder::class,
+            PertanyaanSeeder::class,
         ]);
     }
 }

@@ -9,7 +9,7 @@ class Cobit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['evaluasi_id', 'indikator_id', 'kematangan_indikator', 'level', 'ada', 'nilai', 'proses_atribut', 'catatan', 'bukti_pendukung'];
+    protected $fillable = ['evaluasi_id', 'indikator_id', 'pertanyaan_id', 'kematangan_indikator', 'ada', 'nilai', 'catatan', 'bukti_pendukung'];
 
     public function evaluasi()
     {
@@ -19,5 +19,10 @@ class Cobit extends Model
     public function indikator()
     {
         return $this->belongsTo(IndikatorSPBE::class);
+    }
+
+    public function pertanyaan()
+    {
+        return $this->belongsTo(Pertanyaan::class);
     }
 }

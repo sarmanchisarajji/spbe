@@ -4,7 +4,8 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
-                <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="{{ url('') }}/assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
+                    height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -29,30 +30,32 @@
                     </span>
                     <h4 class="text-section">Menu Utama</h4>
                 </li>
-                <li class="nav-item">
-                    <a href="">
+                <li class="nav-item {{ Request::is('dashboard') ? 'active' : '' }}">
+                    <a href="/dashboard">
                         <i class="fas fa-home"></i>
                         <p>Beranda</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                <li class="nav-item {{ request()->is('aspek-indikator/*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#sidebarLayouts"
+                        class="{{ request()->is('aspek-indikator/*') ? '' : 'collapsed' }}"
+                        aria-expanded="{{ request()->is('aspek-indikator/*') ? 'true' : 'false' }}">
                         <i class="fas fa-layer-group"></i>
                         <p>Domain Layanan</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="sidebarLayouts">
+                    <div class="collapse {{ request()->is('aspek-indikator/*') ? 'show' : '' }}" id="sidebarLayouts">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="">
+                            <li class="{{ request()->is('aspek-indikator/domain-layanan') ? 'active' : '' }}">
+                                <a href="/aspek-indikator/domain-layanan">
                                     <span class="sub-item">Aspek & Indikator</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item" {{ Request::is('Prosescobit*') ? 'active' : '' }}>
-                    <a href="/Prosescobit" >
+                <li class="nav-item {{ Request::is('Prosescobit*') ? 'active' : '' }}">
+                    <a href="/Prosescobit">
                         <i class="fas fa-th-list"></i>
                         <p>Proses COBIT 5</p>
                     </a>
