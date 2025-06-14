@@ -68,9 +68,15 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $apk->nama_aplikasi }}</td>
+                                            <td>
+                                                @if ($apk->hasil_kematangan !== null)
+                                                    {{ $apk->hasil_kematangan }}%
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>{{ $apk->level_kematangan }}</td>
                                             <td>{{ $apk->deskripsi }}</td>
-                                            <td>{{ $apk->kematangan }}</td>
-                                            <td>{{ $apk->predikat }}</td>
                                             <td>{{ \Carbon\Carbon::parse($apk->updated_at)->format('d-m-Y') }}</td>
                                             <td>
                                                 <div class="form-button-action">

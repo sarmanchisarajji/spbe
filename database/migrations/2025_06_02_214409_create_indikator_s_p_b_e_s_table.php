@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_indikator');
             $table->string('domain_cobit');
             $table->string('nama_cobit');
+            $table->decimal('hasil')->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AplikasiSPBEController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DomainAspekIndikatorController;
-use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\IndikatorController;
+use App\Http\Controllers\PertanyaanController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,12 @@ Route::post('/Prosescobit/storeAplikasi', [AplikasiSPBEController::class, 'store
 Route::put('/Prosescobit/updateAplikasi/{id}', [AplikasiSPBEController::class, 'updateAplikasi'])->name('aplikasi.update');
 Route::delete('/Prosescobit/deleteAplikasi/{id}', [AplikasiSPBEController::class, 'destroyAplikasi'])->name('aplikasi.destroy');
 
-Route::get('/Prosescobit/{id}/penilaian', [PenilaianController::class, 'indexPenilaian'])->name('penilaian.index');
-Route::put('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/updatePenilaian', [PenilaianController::class, 'updatePenilaian'])->name('penilaian.update');
-Route::delete('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/deletePenilaian', [PenilaianController::class, 'destroyPenilaian'])->name('penilaian.destroy');
-Route::post('/Prosescobit/{idAplikasi}/hitungKematangan', [PenilaianController::class, 'hitungKematanganSPBE'])->name('hitung.kematangan');
-Route::get('/Prosescobit/laporanKematangan/pdf/{id}', [PenilaianController::class, 'laporanPDF']);
+Route::get('/Prosescobit/{id}/indikator', [IndikatorController::class, 'indexPenilaian'])->name('penilaian.index');
+Route::put('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/updatePenilaian', [IndikatorController::class, 'updatePenilaian'])->name('penilaian.update');
+Route::delete('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/deletePenilaian', [IndikatorController::class, 'destroyPenilaian'])->name('penilaian.destroy');
+Route::post('/Prosescobit/{idAplikasi}/hitungKematangan', [IndikatorController::class, 'hitungKematanganSPBE'])->name('hitung.kematangan');
+Route::get('/Prosescobit/laporanKematangan/pdf/{id}', [IndikatorController::class, 'laporanPDF']);
+
+Route::get('/evaluasis/{evaluasi_id}/indikator/{indikator_id}/pertanyaan', [PertanyaanController::class, 'indexPertanyaan'])->name('pertanyaan.index');
+Route::put('/jawaban/{id}', [PertanyaanController::class, 'updateJawaban'])->name('jawaban.update');
+
