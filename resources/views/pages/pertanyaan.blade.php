@@ -2,32 +2,11 @@
 @section('main-contents')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3"> {{ $indikator['nama_indikator'] }}</h3>
-            <ul class="breadcrumbs mb-3">
-                {{-- <li class="nav-home">
-                    <a href="#">
-                        <i class="icon-home"></i>
-                    </a>
-                </li> --}}
-                {{-- <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li> --}}
-                <li class="nav-item">
-                    <a href="/aplikasiSPBE">Aplikasi SPBE</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="/dashboard">
-                        <i class="icon-home"></i> Dashboard
-                    </a>
-                </li>
-            </ul>
+            <h3 class="fw-bold mb-3"> Evaluasi ({{ $indikator['nama_indikator'] }})</h3>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @if (session('success'))
+                {{-- @if (session('success'))
                     <div id="success-alert" class="alert alert-success alert-dismissible fade show text-success"
                         role="alert">
                         {{ session('success') }}
@@ -50,14 +29,15 @@
                             }, 500);
                         });
                     }, 3000);
-                </script>
+                </script> --}}
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Penilaian Aplikasi {{ $indikator['nama_indikator'] }}</h4>
-<a href="{{ route('penilaian.index', ['id' => $evaluasi_id]) }}" class="btn btn-primary btn-round ms-auto">
-    <i class="fa fa-arrow-left"></i> Kembali
-</a>
+                            <h4 class="card-title">Evaluasi ({{ $indikator['nama_indikator'] }})</h4>
+                            <a href="{{ route('penilaian.index', ['id' => $evaluasi_id]) }}"
+                                class="btn btn-primary btn-round ms-auto">
+                                <i class="fa fa-arrow-left"></i> Kembali
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -65,15 +45,15 @@
                             <table id="dataTable1" class="display table table-striped table-hover">
                                 <thead style="text-transform: none;" class="text-lowercase">
                                     <tr>
-                                        <th>No</th>
-                                        <th>Level</th>
-                                        <th>Atribut Proses</th>
-                                        <th>Pertanyaan</th>
-                                        <th>Jawaban</th>
-                                        <th>Keterangan</th>
-                                        <th>Bukti Pendukung</th>
-                                        <th>Score</th>
-                                        <th>Aksi</th>
+                                        <th style="width: 1%">No</th>
+                                        <th style="width: 3%">Level</th>
+                                        <th style="width: 15%">Atribut Proses</th>
+                                        <th style="width: 15%">Pertanyaan</th>
+                                        <th style="width: 2%">Jawaban</th>
+                                        <th style="width: 2%">Keterangan</th>
+                                        <th style="width: 10%">Bukti Pendukung</th>
+                                        <th style="width: 3%">Score</th>
+                                        <th style="width: 3%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,7 +67,7 @@
                                         @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}.</td>
-                                            <td>Level {{ $item->level }}</td>
+                                            <td>Level-{{ $item->level }}</td>
                                             <td>{{ $item->atribut_proses }}</td>
                                             <td>{{ $item->pertanyaan }}</td>
                                             <td>{{ $jawab->ada ?? '-' }}</td>
@@ -108,7 +88,7 @@
                                                         <i class="fa fa-edit"></i>
                                                     </button>
                                                 @else
-                                                    <span class="text-muted">Terkunci</span>
+                                                    <span class="text-muted text-danger fw-bold">Terkunci</span>
                                                 @endif
                                             </td>
                                         </tr>
@@ -123,7 +103,9 @@
                                                         @method('PUT')
 
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Data</h5>
+                                                            <h5 class="modal-title fw-bold">
+                                                                <i class="fas fa-pencil-alt"></i> Edit Data
+                                                            </h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"></button>
                                                         </div>

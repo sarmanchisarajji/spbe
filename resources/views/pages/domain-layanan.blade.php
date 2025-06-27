@@ -5,7 +5,7 @@
             <h3 class="fw-bold mb-3">Aspek & Indikator</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
-                    <a href="#">
+                    <a href="/dashboard">
                         <i class="icon-home"></i>
                     </a>
                 </li>
@@ -35,7 +35,7 @@
                                     <th style="min-width: 250px">Aspek</th>
                                     <th style="min-width: 100px">Nama Indikator</th>
                                     <th style="min-width: 150px">Domain Cobit</th>
-                                    <th style="min-width: 100px">Nama CObit</th>
+                                    <th style="min-width: 100px">Nama Cobit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +51,7 @@
                                             @endif
                                             <td class="text-nowrap">{{ $indikator->nama_indikator }}</td>
                                             <td class="text-nowrap">{{ $indikator->domain_cobit }}</td>
-                                            <td class="text-center">{{ $indikator->nama_cobit }}</td>
+                                            <td>{{ $indikator->nama_cobit }}</td>
                                         </tr>
                                     @endforeach
                                 @endforeach

@@ -2,7 +2,7 @@
 @section('main-contents')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Aplikasi SPBE</h3>
+            <h3 class="fw-bold mb-3">Proses COBIT</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="/dashboard">
@@ -13,31 +13,12 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="/dashboard">Aplikasi</a>
+                    <a href="/dashboard">Dashboard</a>
                 </li>
             </ul>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @if (session('success'))
-                    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                <script>
-                    // Tunggu 3 detik (3000 ms) lalu hilangkan pesan sukses
-                    setTimeout(function() {
-                        let alert = document.getElementById("success-alert");
-                        if (alert) {
-                            alert.style.transition = "opacity 0.5s ease-out";
-                            alert.style.opacity = "0";
-                            setTimeout(() => {
-                                alert.remove();
-                            }, 500); // Hapus elemen setelah animasi selesai
-                        }
-                    }, 3000); // 3 detik
-                </script>
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
@@ -58,7 +39,7 @@
                                         <th style="width: 18%">Tingkat Kematangan</th>
                                         <th style="width: 15%">Level Kematangan</th>
                                         <th style="width: 18%">Deskripsi</th>
-                                        <th style="width: 18%">Tanggal Penilaian</th>
+                                        <th style="width: 18%">Tahun Penilaian</th>
                                         <th style="width: 0%">Laporan</th>
                                         <th style="width: 10%">Aksi</th>
                                     </tr>
@@ -77,7 +58,7 @@
                                             </td>
                                             <td>{{ $apk->level_kematangan }}</td>
                                             <td>{{ $apk->deskripsi }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($apk->updated_at)->format('d-m-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($apk->updated_at)->format('Y') }}</td>
                                             <td>
                                                 <div class="form-button-action">
                                                     {{-- <button type="button" data-bs-toggle="tooltip" title="Laporan"
@@ -122,7 +103,9 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel">Edit Aplikasi</h5>
+                                                        <h5 class="modal-title fw-bold" id="editModalLabel">
+                                                            <i class="fas fa-pencil-alt"></i> Edit Aplikasi
+                                                        </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -195,7 +178,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addAplikasiLabel fw-bold">Tambah Aplikasi SPBE</h5>
+                    <h5 class="modal-title fw-bold" id="addAplikasiLabel fw-bold">
+                        <i class="fa fa-plus"></i> Tambah Aplikasi SPBE
+                    </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

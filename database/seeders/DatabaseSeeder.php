@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AspekSeeder::class,
             IndikatorSeeder::class,
             PertanyaanSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
