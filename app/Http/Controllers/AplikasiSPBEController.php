@@ -70,18 +70,18 @@ class AplikasiSPBEController extends Controller
         ]);
     }
 
-
-
     public function storeAplikasi(Request $request)
     {
         $request->validate([
             'nama_aplikasi' => 'required',
             'deskripsi' => 'required',
+            'tahun_penilaian' => 'required|integer|min:2000|max:' . (date('Y') + 1),
         ]);
 
         Evaluasi::create([
             'nama_aplikasi' => $request->nama_aplikasi,
             'deskripsi' => $request->deskripsi,
+            'tahun_penilaian' => $request->tahun_penilaian,
         ]);
 
         return redirect()->back()->with('success', 'Data aplikasi berhasil ditambahkan.');
@@ -92,17 +92,18 @@ class AplikasiSPBEController extends Controller
         $request->validate([
             'nama_aplikasi' => 'required',
             'deskripsi' => 'required',
+            'tahun_penilaian' => 'required|integer|min:2000|max:' . (date('Y') + 1),
         ]);
 
         $aplikasi = Evaluasi::findOrFail($id);
         $aplikasi->update([
             'nama_aplikasi' => $request->nama_aplikasi,
             'deskripsi' => $request->deskripsi,
+            'tahun_penilaian' => $request->tahun_penilaian,
         ]);
 
         return redirect()->back()->with('success', 'Data aplikasi berhasil diperbarui.');
     }
-
     public function destroyAplikasi($id)
     {
         // Hapus semua data yang memiliki evaluasi_id = $id dari tabel cobits

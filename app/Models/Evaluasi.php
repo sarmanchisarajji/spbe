@@ -9,7 +9,7 @@ class Evaluasi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_aplikasi', 'tingkat_kematangan', 'level_kematangan', 'deskripsi'];
+    protected $fillable = ['nama_aplikasi', 'tingkat_kematangan', 'level_kematangan', 'deskripsi', 'tahun_penilaian'];
 
 
     public function cobit()

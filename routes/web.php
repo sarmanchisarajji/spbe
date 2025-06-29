@@ -48,10 +48,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/Prosescobit/deleteAplikasi/{id}', [AplikasiSPBEController::class, 'destroyAplikasi'])->name('aplikasi.destroy');
 
     Route::get('/Prosescobit/{id}/indikator', [IndikatorController::class, 'indexPenilaian'])->name('penilaian.index');
-    Route::put('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/updatePenilaian', [IndikatorController::class, 'updatePenilaian'])->name('penilaian.update');
-    Route::delete('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/deletePenilaian', [IndikatorController::class, 'destroyPenilaian'])->name('penilaian.destroy');
-    Route::post('/Prosescobit/{idAplikasi}/hitungKematangan', [IndikatorController::class, 'hitungKematanganSPBE'])->name('hitung.kematangan');
-    Route::get('/Prosescobit/laporanKematangan/pdf/{id}', [IndikatorController::class, 'laporanPDF']);
+    // Route::put('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/updatePenilaian', [IndikatorController::class, 'updatePenilaian'])->name('penilaian.update');
+    // Route::delete('/Prosescobit/{idAplikasi}/penilaian/{idIndikator}/deletePenilaian', [IndikatorController::class, 'destroyPenilaian'])->name('penilaian.destroy');
+    // Route::post('/Prosescobit/{idAplikasi}/hitungKematangan', [IndikatorController::class, 'hitungKematanganSPBE'])->name('hitung.kematangan');
+    Route::get('/Prosescobit/laporanKematangan/pdf/{id}', [IndikatorController::class, 'exportPdf']);
 
     Route::get('/Prosescobit/{idAplikasi}/indikator/{indikator_id}/pertanyaan', [PertanyaanController::class, 'indexPertanyaan'])->name('pertanyaan.index');
     Route::put('/jawaban/{id}', [PertanyaanController::class, 'updateJawaban'])->name('jawaban.update');

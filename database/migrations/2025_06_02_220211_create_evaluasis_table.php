@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('tingkat_kematangan', 5, 2)->nullable();
             $table->string('level_kematangan')->nullable();
             $table->string('deskripsi')->nullable();
+            $table->year('tahun_penilaian')->nullable();
             $table->timestamps();
         });
     }

@@ -58,7 +58,7 @@
                                             </td>
                                             <td>{{ $apk->level_kematangan }}</td>
                                             <td>{{ $apk->deskripsi }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($apk->updated_at)->format('Y') }}</td>
+                                            <td>{{ $apk->tahun_penilaian }}</td>
                                             <td>
                                                 <div class="form-button-action">
                                                     {{-- <button type="button" data-bs-toggle="tooltip" title="Laporan"
@@ -122,6 +122,12 @@
                                                             <div class="mb-3">
                                                                 <label class="form-label">Deskripsi</label>
                                                                 <textarea name="deskripsi" class="form-control" required>{{ $apk->deskripsi }}</textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Tahun Penilaian</label>
+                                                                <input type="number" name="tahun_penilaian"
+                                                                    class="form-control"
+                                                                    value="{{ $apk->tahun_penilaian }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -195,6 +201,12 @@
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
                             <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tahun_penilaian">Tahun Penilaian</label>
+                            <input type="number" class="form-control" id="tahun_penilaian" name="tahun_penilaian"
+                                min="2000" max="{{ date('Y') + 1 }}" placeholder="Masukkan tahun penilaian"
+                                required>
                         </div>
                     </div>
                     <div class="modal-footer">
