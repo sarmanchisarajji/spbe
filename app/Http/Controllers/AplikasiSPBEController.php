@@ -8,67 +8,91 @@ use \Illuminate\Support\Facades\DB;
 
 class AplikasiSPBEController extends Controller
 {
-    public function indexSPBE()
-    {
-        // Ambil semua data evaluasi
-        $aplikasi = Evaluasi::all();
+public function indexSPBE()
+{
+    // Ambil semua data evaluasi (aplikasi)
+    $aplikasiList = Evaluasi::all();
 
-        // Ambil data dari tabel cobits
-        $dataCobits = DB::table('cobits')->get();
+    foreach ($aplikasiList as $apk) {
 
-        // Proses perhitungan hasil_kematangan dan update tabel evaluasis
-        foreach ($aplikasi as $apk) {
-            // Filter data cobits berdasarkan evaluasi_id saat ini
-            $filtered = $dataCobits->where('evaluasi_id', $apk->id);
+        // STEP 1 - Ambil nilai rata-rata per indikator per level
+        $dataCobit = DB::table('cobits')
+            ->select(
+                'indikator_id',
+                'level',
+                DB::raw('AVG(CASE WHEN nilai IN ("F", "L") THEN 1 ELSE 0 END) as rata_level')
+            )
+            ->where('evaluasi_id', $apk->id)
+            ->groupBy('indikator_id', 'level')
+            ->get();
 
-            // Kelompokkan berdasarkan indikator_id
-            $grouped = $filtered->groupBy('indikator_id');
+        // Siapkan array untuk menyimpan rata-rata per indikator
+        $indikatorRataRata = [];
 
-            $totalPersen = 0;
-            $jumlahIndikator = $grouped->count();
+        foreach ($dataCobit as $row) {
+            $indikatorId = $row->indikator_id;
+            $level = $row->level;
+            $rataLevel = $row->rata_level;
 
-            foreach ($grouped as $indikatorId => $group) {
-                // Konversi nilai F/L = 1, lainnya = 0
-                $nilaiKonversi = $group->map(function ($item) {
-                    return in_array($item->nilai, ['F', 'L']) ? 1 : 0;
-                });
-
-                // Hitung rata-rata dalam persen
-                $avg = $nilaiKonversi->avg() * 100;
-                $totalPersen += $avg;
+            if (!isset($indikatorRataRata[$indikatorId])) {
+                $indikatorRataRata[$indikatorId] = [
+                    'jumlah_rata' => 0,
+                    'jumlah_level' => 0,
+                ];
             }
 
-            // Hitung rata-rata keseluruhan dari seluruh indikator
-            $hasilKematangan = $jumlahIndikator > 0 ? round($totalPersen / $jumlahIndikator, 2) : 0;
-
-            // Tentukan level kematangan
-            $level = match (true) {
-                $hasilKematangan == 0 => 'Level 0',
-                $hasilKematangan <= 20 => 'Level 1',
-                $hasilKematangan <= 40 => 'Level 2',
-                $hasilKematangan <= 60 => 'Level 3',
-                $hasilKematangan <= 80 => 'Level 4',
-                default => 'Level 5',
-            };
-
-            // Update ke tabel evaluasis
-            DB::table('evaluasis')
-                ->where('id', $apk->id)
-                ->update([
-                    'tingkat_kematangan' => $hasilKematangan,
-                    'level_kematangan' => $level,
-                    'updated_at' => now(),
-                ]);
-
-            // Tambahkan ke objek $aplikasi
-            $apk->hasil_kematangan = $hasilKematangan;
-            $apk->level_kematangan = $level;
+            $indikatorRataRata[$indikatorId]['jumlah_rata'] += $rataLevel;
+            $indikatorRataRata[$indikatorId]['jumlah_level']++;
         }
 
-        return view('pages.apk', [
-            'aplikasis' => $aplikasi,
-        ]);
+        // STEP 2 - Hitung rata-rata final setiap indikator
+        $indikatorFinalAverages = [];
+        foreach ($indikatorRataRata as $indikatorId => $data) {
+            $total = $data['jumlah_rata'];
+            $jumlahLevel = $data['jumlah_level'];
+            $finalAverage = $jumlahLevel > 0 ? $total / $jumlahLevel : 0;
+            $indikatorFinalAverages[$indikatorId] = $finalAverage;
+        }
+
+        // STEP 3 - Hitung rata-rata keseluruhan dari semua indikator
+        $totalIndikator = count($indikatorFinalAverages);
+        $sumAllIndikators = array_sum($indikatorFinalAverages);
+
+        // Sesuai ketentuanmu, dibagi 16 indikator
+        $hasilKematangan = 16 > 0
+            ? round(($sumAllIndikators / 16) * 100, 2)
+            : 0;
+        // dd($sumAllIndikators);
+
+        // Tentukan level kematangan
+        $level = match (true) {
+            $hasilKematangan == 0 => 'Level 0',
+            $hasilKematangan <= 20 => 'Level 1',
+            $hasilKematangan <= 40 => 'Level 2',
+            $hasilKematangan <= 60 => 'Level 3',
+            $hasilKematangan <= 80 => 'Level 4',
+            default => 'Level 5',
+        };
+
+        // Update ke tabel evaluasis
+        DB::table('evaluasis')
+            ->where('id', $apk->id)
+            ->update([
+                'tingkat_kematangan' => $hasilKematangan,
+                'level_kematangan' => $level,
+                'updated_at' => now(),
+            ]);
+
+        // Simpan ke object untuk view
+        $apk->hasil_kematangan = $hasilKematangan;
+        $apk->level_kematangan = $level;
     }
+
+    return view('pages.apk', [
+        'aplikasis' => $aplikasiList,
+    ]);
+}
+
 
     public function storeAplikasi(Request $request)
     {
