@@ -2,60 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evaluasi;
-use App\Models\Pertanyaan;
-use Illuminate\Http\Request;
-
-
 use App\Models\IndikatorSPBE;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Pertanyaan;
 use \Illuminate\Support\Facades\DB;
+
+
+use Illuminate\Http\Request;
 
 
 class IndikatorController extends Controller
 {
-    public function indexPenilaian($id)
-    {
-        // Ambil semua data indikator
-        $aplikasi = IndikatorSPBE::all();
+public function indexPenilaian($id)
+{
+    // Ambil semua data indikator
+    $aplikasi = IndikatorSPBE::all();
 
-        // Ambil data evaluasi berdasarkan ID
-        $evaluasi = DB::table('evaluasis')->where('id', $id)->first();
+    // Ambil data evaluasi berdasarkan ID
+    $evaluasi = DB::table('evaluasis')->where('id', $id)->first();
 
-        // Ambil dan proses data cobits berdasarkan evaluasi_id dan indikator_id
-        $dataCobit = DB::table('cobits')
-            ->select('indikator_id', DB::raw('AVG(CASE WHEN nilai IN ("F", "L") THEN 1 ELSE 0 END) as rata_nilai'))
-            ->where('evaluasi_id', $id)
-            ->groupBy('indikator_id')
-            ->get();
+    // Ambil rata-rata per indikator_id dan level
+    $dataCobit = DB::table('cobits')
+        ->select(
+            'indikator_id',
+            'level',
+            DB::raw('AVG(CASE WHEN nilai IN ("F", "L") THEN 1 ELSE 0 END) as rata_level')
+        )
+        ->where('evaluasi_id', $id)
+        ->groupBy('indikator_id', 'level')
+        ->get();
 
-        // Tambahkan nilai hasil (dalam persen) ke dalam $aplikasi
-        foreach ($aplikasi as $item) {
-            $match = $dataCobit->firstWhere('indikator_id', $item->id);
-            if ($match) {
-                $item->hasil = round($match->rata_nilai * 100, 2); // dalam persen
-            } else {
-                $item->hasil = null; // atau 0 atau '-' tergantung kebutuhan tampilan
-            }
+    // Buat array untuk simpan rata-rata per indikator
+    $indikatorRataRata = [];
+
+    // Susun data per indikator_id
+    foreach ($dataCobit as $row) {
+        $indikatorId = $row->indikator_id;
+        $level = $row->level;
+        $rataLevel = $row->rata_level;
+
+        if (!isset($indikatorRataRata[$indikatorId])) {
+            $indikatorRataRata[$indikatorId] = [
+                'jumlah_rata' => 0,
+                'jumlah_level' => 0,
+            ];
         }
 
-        return view('pages.penilaian', compact('aplikasi', 'evaluasi'));
+        $indikatorRataRata[$indikatorId]['jumlah_rata'] += $rataLevel;
+        $indikatorRataRata[$indikatorId]['jumlah_level']++;
     }
 
-    public function exportPdf($id)
-    {
-        $evaluasi = Evaluasi::with([
-            'cobit.pertanyaan',
-            'cobit.indikator'
-        ])->findOrFail($id);
-
-        $grouped = $evaluasi->cobit->groupBy(function ($cobit) {
-            return $cobit->indikator->nama_indikator ?? 'Indikator Tidak Diketahui';
-        });
-
-        return Pdf::loadView('pages.report', [
-            'evaluasi' => $evaluasi,
-            'groupedCobits' => $grouped,
-        ])->stream("Laporan-SPBE-{$evaluasi->nama_aplikasi}.pdf");
+    // Hitung rata-rata akhir untuk tiap indikator
+    foreach ($aplikasi as $item) {
+        if (isset($indikatorRataRata[$item->id])) {
+            $total = $indikatorRataRata[$item->id]['jumlah_rata'];
+            $jumlahLevel = $indikatorRataRata[$item->id]['jumlah_level'];
+            $finalAverage = $total / $jumlahLevel;
+            $item->hasil = round($finalAverage * 100, 2); // persen
+        } else {
+            $item->hasil = null; // atau 0
+        }
     }
+
+    return view('pages.penilaian', compact('aplikasi', 'evaluasi'));
+}
+
 }

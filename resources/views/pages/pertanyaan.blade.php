@@ -124,6 +124,12 @@
                                                                 <input type="text" class="form-control" id="pertanyaan"
                                                                     value="{{ $item->pertanyaan ?? '' }}" disabled>
                                                             </div>
+                                                            <div class="mb-3">
+                                                                <label for="pertanyaan"
+                                                                    class="form-label">Level</label>
+                                                                <input type="text" class="form-control" id="level" name="level"
+                                                                    value="{{ $item->level ?? '' }}" readonly>
+                                                            </div>
 
                                                             <div class="mb-3">
                                                                 <label for="ada-{{ $item->id }}"
@@ -223,4 +229,37 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $('.ketersediaan-select').on('change', function() {
+            const selectedValue = $(this).val();
+            const targetId = $(this).data('target');
+            const $scoreSelect = $('#' + targetId);
+
+            // reset score select
+            $scoreSelect.empty();
+
+            if (selectedValue === 'TIDAK') {
+                $scoreSelect.append('<option value="">Pilih Score</option>');
+                $scoreSelect.append('<option value="P">P - Partially Achieved</option>');
+                $scoreSelect.append('<option value="N">N - Not Achieved</option>');
+            } else if (selectedValue === 'IYA') {
+                $scoreSelect.append('<option value="">Pilih Score</option>');
+                $scoreSelect.append('<option value="F">F - Fully Achieved</option>');
+                $scoreSelect.append('<option value="L">L - Largely Achieved</option>');
+                $scoreSelect.append('<option value="P">P - Partially Achieved</option>');
+                $scoreSelect.append('<option value="N">N - Not Achieved</option>');
+            } else {
+                $scoreSelect.append('<option value="">Pilih Score</option>');
+            }
+        });
+
+        // Trigger on load, in case of edit data
+        $('.ketersediaan-select').trigger('change');
+
+    });
+</script>
+
 @endsection

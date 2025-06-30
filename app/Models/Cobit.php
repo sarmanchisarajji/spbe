@@ -9,7 +9,7 @@ class Cobit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['evaluasi_id', 'indikator_id', 'pertanyaan_id', 'kematangan_indikator', 'ada', 'nilai', 'catatan', 'bukti_pendukung'];
+    protected $fillable = ['evaluasi_id', 'indikator_id', 'pertanyaan_id','level', 'kematangan_indikator', 'ada', 'nilai', 'catatan', 'bukti_pendukung'];
 
     public function evaluasi()
     {

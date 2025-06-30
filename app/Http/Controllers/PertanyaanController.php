@@ -80,6 +80,7 @@ class PertanyaanController extends Controller
             'evaluasi_id'    => 'required|exists:evaluasis,id',
             'indikator_id'   => 'required|exists:indikator_s_p_b_e_s,id',
             'pertanyaan_id'  => 'required|exists:pertanyaans,id',
+            'level'          => 'required',
             'nilai'          => 'required|in:F,L,P,N', // Validasi score enum
             'ada'            => 'required|in:IYA,TIDAK',     // Validasi ketersediaan enum
             'catatan'        => 'nullable|string',
@@ -90,6 +91,7 @@ class PertanyaanController extends Controller
             'evaluasi_id'   => $request->evaluasi_id,
             'indikator_id'  => $request->indikator_id,
             'pertanyaan_id' => $request->pertanyaan_id,
+            'level'         => $request->level,
             'nilai'         => $request->nilai,
             'ada'           => $request->ada,
             'catatan'       => $request->catatan,
@@ -139,6 +141,7 @@ class PertanyaanController extends Controller
                             'evaluasi_id'   => $request->evaluasi_id,
                             'indikator_id'  => $request->indikator_id,
                             'pertanyaan_id' => $p->id,
+                            'level'         => $p->level,
                             'ada'           => 'TIDAK',
                             'nilai'         => 'N',
                             'catatan'       => 'Tidak ada Catatan',
