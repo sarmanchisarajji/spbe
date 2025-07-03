@@ -2,7 +2,7 @@
 @section('main-contents')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Penialain Aplikasi ({{ $evaluasi->nama_aplikasi }}) </h3>
+            <h3 class="fw-bold mb-3">Penilaian Aplikasi ({{ $evaluasi->nama_aplikasi }}) </h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-item">
                     <a href="/Prosescobit">Proses COBIT</a>

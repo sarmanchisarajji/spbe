@@ -62,7 +62,7 @@ public function indexSPBE()
         $hasilKematangan = 16 > 0
             ? round(($sumAllIndikators / 16) * 100, 2)
             : 0;
-        // dd($sumAllIndikators);
+        //  dd($sumAllIndikators);
 
         // Tentukan level kematangan
         $level = match (true) {
